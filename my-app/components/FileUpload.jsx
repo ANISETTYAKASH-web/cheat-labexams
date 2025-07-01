@@ -1,7 +1,7 @@
 import { useState, useRef } from "react";
 
-function FileUpload() {
-  const [selectFiles, setSelectFiles] = useState(null);
+export default function FileUpload() {
+  const [selectFiles, setSelectFiles] = useState([]);
   const fileRef = useRef("");
   function handleButtonChange(e) {
     fileRef.current.click();
@@ -16,13 +16,13 @@ function FileUpload() {
     if (selectFiles.length === 0) {
       alert("no files selected");
     }
-    const formData = new formData();
-    selectFiles.array.forEach((element) => {
+    const formData = new FormData();
+    selectFiles.forEach((element) => {
       formData.append("files", element);
     });
     try {
       const res = await fetch("http://localhost:3000/upload", {
-        method: POST,
+        method: "POST",
         body: formData,
       });
       console.log(res);
@@ -36,7 +36,7 @@ function FileUpload() {
   }
   return (
     <div>
-      <button onChange={handleButtonChange}>Select Files</button>
+      <button onClick={handleButtonChange}>Select Files</button>
       <input
         type="file"
         multiple

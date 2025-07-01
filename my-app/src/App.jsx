@@ -10,9 +10,6 @@ function App() {
   return (
     <>
       <FileUpload />
-      <div>
-        <input type="file" multiple id="file-input"></input>
-      </div>
     </>
   );
 }
