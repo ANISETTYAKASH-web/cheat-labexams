@@ -5,7 +5,7 @@ export default function FileUpload() {
   const [uploadStatus, setUploadStatus] = useState({});
   const [overAllLoading, setOverAllLoading] = useState(false);
   const [overAllError, setOverAllError] = useState(null);
-  const backend_endpoint = "http://localhost:3000/upload";
+  const backend_endpoint = "http://localhost:3000/get_preassigned_url";
   const fileRef = useRef("");
   function handleButtonChange(e) {
     fileRef.current.click();
@@ -58,9 +58,9 @@ export default function FileUpload() {
 
         //uploading files to s3 bucket(r2)
         const upload = await fetch(preassigned_url, {
-          method: "POST",
+          method: "PUT",
           headers: {
-            "Content-Type": "application/json",
+            "Content-Type": fileType,
           },
           body: file,
         });
@@ -85,28 +85,7 @@ export default function FileUpload() {
       setOverAllError("failed to process few files check status for them");
     }
   };
-  async function handleUpload() {
-    if (selectFiles.length === 0) {
-      alert("no files selected");
-    }
-    const formData = new FormData();
-    selectFiles.forEach((element) => {
-      formData.append("files", element);
-    });
-    try {
-      const res = await fetch("http://localhost:3000/upload", {
-        method: "POST",
-        body: formData,
-      });
-      console.log(res);
-      const result = await res.json(res);
-      console.log(result);
-      alert("file uploaded succesfully");
-    } catch (err) {
-      console.error(err);
-      alert("upload failed");
-    }
-  }
+
   return (
     <div>
       <button onClick={handleButtonChange}>Select Files</button>
@@ -115,14 +94,20 @@ export default function FileUpload() {
         multiple
         ref={fileRef}
         onChange={handleFileChange}
+        disabled={overAllLoading}
       ></input>
+      {overAllError && <strong>OverAllError:{overAllError}</strong>}
       {selectFiles.length > 0 && (
           <ul>
             {selectFiles.map((file) => (
               <li>{file.name}</li>
             ))}
           </ul>
-        ) && <button onClick={handleUpload}>UPLOAD</button>}
+        ) && (
+          <button onClick={handleAllUpload} disabled={overAllLoading}>
+            UPLOAD
+          </button>
+        )}
     </div>
   );
 }
