@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const multer = require("multer");
-const S3URL = require("./services/S3Connect");
+const S3URL = require("./routes/S3ConnectRoute");
 const PORT = 3000;
 app.use(cors());
 app.use(express.json());
