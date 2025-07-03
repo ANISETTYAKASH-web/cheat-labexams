@@ -15,9 +15,8 @@ const S3Client = new aws.S3Client({
 const bucket = process.env.R2_BUCKET;
 
 router.post("/get_preassigned_url", async (req, res) => {
-  const { fileName, fileType } = req.body;
-
-  const s3key = `upload/${Date.now()}-${fileName}`;
+  const { fileName, fileType, sessionId } = req.body;
+  const s3key = `${sessionId}/${Date.now()}-${fileName}`;
   const params = {
     Bucket: bucket,
     Key: s3key,
