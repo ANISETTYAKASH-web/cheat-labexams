@@ -2,6 +2,10 @@ import { useState, useRef } from "react";
 
 export default function FileUpload() {
   const [selectFiles, setSelectFiles] = useState([]);
+  const [uploadStatus, setUploadStatus] = useState({});
+  const [overAllLoading, setOverAllLoading] = useState(false);
+  const [overAllError, setOverAllError] = useState(null);
+
   const fileRef = useRef("");
   function handleButtonChange(e) {
     fileRef.current.click();
@@ -11,6 +15,14 @@ export default function FileUpload() {
     console.log(e.target.files);
     console.log(files);
     setSelectFiles(files);
+    setUploadStatus({});
+    setOverAllError(null);
+  }
+  function handleStatus(filename, status, message) {
+    setUploadStatus((prevstatus) => ({
+      ...prevstatus,
+      [filename]: { status, message },
+    }));
   }
   async function handleUpload() {
     if (selectFiles.length === 0) {
