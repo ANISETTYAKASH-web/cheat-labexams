@@ -1,4 +1,6 @@
 import { useState, useRef } from "react";
+// const { v4: uuidv4 } = require("uuid");
+import { v4 as uuidv4 } from "uuid";
 
 export default function FileUpload() {
   const [selectFiles, setSelectFiles] = useState([]);
@@ -31,18 +33,21 @@ export default function FileUpload() {
       return;
     }
     setOverAllLoading(true);
+    const sessionId = uuidv4();
+
     const uploadPromises = selectFiles.map(async (file) => {
       const fileName = file.name;
       const fileType = file.type;
       handleStatus(fileName, "getting-url", "getting backend url");
 
+      //fetching pre signed url from backend
       try {
         const response = await fetch(backend_endpoint, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ fileName, fileType }),
+          body: JSON.stringify({ fileName, fileType, sessionId }),
         });
         if (!response.ok) {
           const errorData = await response.json();
