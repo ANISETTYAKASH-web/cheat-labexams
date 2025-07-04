@@ -13,6 +13,6 @@ app.listen(PORT, () => {
 
 app.use("/", S3URL);
 app.use("/get", getFiles);
-app.get("/check", (req, res) => {
+app.get("/api", (req, res) => {
   res.json({ message: "hey" });
 });
