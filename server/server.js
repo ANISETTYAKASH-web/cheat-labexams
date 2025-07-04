@@ -3,6 +3,7 @@ const app = express();
 const cors = require("cors");
 const multer = require("multer");
 const S3URL = require("./routes/S3ConnectRoute");
+const getFiles = require("./routes/downloadUrl");
 const PORT = 3000;
 app.use(cors());
 app.use(express.json());
@@ -21,6 +22,7 @@ app.post("/upload", upload.array("files"), (req, res) => {
   res.json({ message: "success" });
 });
 app.use("/", S3URL);
+app.use("/get", getFiles);
 app.get("/check", (req, res) => {
   res.json({ message: "hey" });
 });
