@@ -1,15 +1,15 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
 import "./App.css";
 import FileUpload from "../components/FileUpload";
+import { Route, Routes } from "react-router-dom";
+import FileDownload from "../components/FileDownload";
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
     <>
-      <FileUpload />
+      <Routes>
+        <Route path="/" element={<FileUpload />}></Route>
+        <Route path="/myfiles/:sessionId" element={<FileDownload />}></Route>
+      </Routes>
     </>
   );
 }
