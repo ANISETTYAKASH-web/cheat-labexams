@@ -1,7 +1,7 @@
 const aws = require("@aws-sdk/client-s3");
 const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
 require("dotenv").config();
-const dbController = require("../controller/supabasedb");
+const dbController = require("./dbController");
 const S3Client = new aws.S3Client({
   region: "auto",
   credentials: {
@@ -15,6 +15,7 @@ const bucket = process.env.R2_BUCKET;
 async function get_url(req, res) {
   const { fileName, fileType, sessionId } = req.body;
   const s3key = `${sessionId}/${fileName}`;
+  //insert files in to db
   const result = dbController.insert_user(sessionId);
   dbController.insert_files(sessionId, fileName);
   console.log(result);
