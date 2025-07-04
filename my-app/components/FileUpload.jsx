@@ -1,4 +1,5 @@
 import { useState, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 // const { v4: uuidv4 } = require("uuid");
 import { v4 as uuidv4 } from "uuid";
 
@@ -7,6 +8,10 @@ export default function FileUpload() {
   const [uploadStatus, setUploadStatus] = useState({});
   const [overAllLoading, setOverAllLoading] = useState(false);
   const [overAllError, setOverAllError] = useState(null);
+  const [showLink, setShowLink] = useState(false);
+  const sessionRef = useRef("");
+  let globalSessionId;
+  const navigate = useNavigate();
   const backend_endpoint = "http://localhost:3000/get_preassigned_url";
   const fileRef = useRef("");
   function handleButtonChange(e) {
@@ -34,7 +39,7 @@ export default function FileUpload() {
     }
     setOverAllLoading(true);
     const sessionId = uuidv4();
-
+    sessionRef.current = sessionId;
     const uploadPromises = selectFiles.map(async (file) => {
       const fileName = file.name;
       const fileType = file.type;
@@ -89,7 +94,13 @@ export default function FileUpload() {
     if (anyFailed) {
       setOverAllError("failed to process few files check status for them");
     }
+    setShowLink(true);
   };
+  function handleDownloadFiles(e) {
+    e.preventDefault();
+    const sessionId = sessionRef.current;
+    navigate(`/myfiles/${sessionId}`);
+  }
 
   return (
     <div>
@@ -102,17 +113,28 @@ export default function FileUpload() {
         disabled={overAllLoading}
       ></input>
       {overAllError && <strong>OverAllError:{overAllError}</strong>}
+      {console.log("length:", selectFiles.length)}
       {selectFiles.length > 0 && (
+        <>
           <ul>
             {selectFiles.map((file) => (
               <li>{file.name}</li>
             ))}
           </ul>
-        ) && (
+
           <button onClick={handleAllUpload} disabled={overAllLoading}>
             UPLOAD
           </button>
-        )}
+        </>
+      )}
+      {showLink && (
+        <a
+          href={`http://localhost:3000/myfiles/${sessionRef.current}`}
+          onClick={handleDownloadFiles}
+        >
+          Download your Files
+        </a>
+      )}
     </div>
   );
 }
