@@ -10,12 +10,7 @@ app.use(express.json());
 app.listen(PORT, () => {
   console.log(`listening on port:${PORT}`);
 });
-const upload = multer({ storage });
 
-app.post("/upload", upload.array("files"), (req, res) => {
-  console.log(req.files);
-  res.json({ message: "success" });
-});
 app.use("/", S3URL);
 app.use("/get", getFiles);
 app.get("/check", (req, res) => {
