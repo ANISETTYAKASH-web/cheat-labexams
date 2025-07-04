@@ -24,3 +24,7 @@ dist-ssr
 *.sw?
 .env
 uploads/
+.env*
+.flaskenv*
+!.env.project
+!.env.vault
