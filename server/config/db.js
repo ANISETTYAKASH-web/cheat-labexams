@@ -6,6 +6,7 @@ const pool = new Pool({
   //   rejectUnauthorized: false,
   // },
 });
+console.log(process.env.DB_STRING);
 pool.on("connect", () => {
   console.log("database connected");
 });
