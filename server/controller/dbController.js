@@ -35,6 +35,7 @@ async function get_files(sessionId) {
     return result.rows;
   } catch (err) {
     console.error(err);
+    console.log("db liink:", process.env.DB_STRING);
   } finally {
     client.release();
   }
