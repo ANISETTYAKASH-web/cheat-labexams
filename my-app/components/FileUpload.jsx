@@ -20,8 +20,16 @@ export default function FileUpload() {
   }
   function handleFileChange(e) {
     const files = Array.from(e.target.files);
-    console.log(e.target.files);
-    console.log(files);
+    const overLimit = files.some((file) => file.size > 30 * 1024 * 1024);
+
+    if (overLimit) {
+      window.alert("Please select files below 30MB.");
+      setOverAllError("Please select files below 30MB.");
+      setSelectFiles([]);
+      e.target.value = null; // Clear file input
+      return; // Exit early
+    }
+
     setSelectFiles(files);
     setUploadStatus({});
     setOverAllError(null);
