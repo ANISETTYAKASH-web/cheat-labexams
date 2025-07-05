@@ -12,7 +12,8 @@ export default function FileUpload() {
   const sessionRef = useRef("");
   let globalSessionId;
   const navigate = useNavigate();
-  const backend_endpoint = "http://localhost:3000/get_preassigned_url";
+  const backend_endpoint =
+    "https://cheat-labexams.onrender.com/get_preassigned_url";
   const fileRef = useRef("");
   function handleButtonChange(e) {
     fileRef.current.click();
@@ -129,7 +130,7 @@ export default function FileUpload() {
       )}
       {showLink && (
         <a
-          href={`http://localhost:3000/myfiles/${sessionRef.current}`}
+          // href={`http://localhost:3000/myfiles/${sessionRef.current}`}
           onClick={handleDownloadFiles}
         >
           Download your Files

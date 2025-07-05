@@ -4,7 +4,7 @@ export default function FileDownload() {
   const { sessionId } = useParams();
   const [urls, setUrls] = useState([]);
   useEffect(() => {
-    fetch(`http://localhost:3000/get/myfiles/${sessionId}`)
+    fetch(`https://cheat-labexams.onrender.com/get/myfiles/${sessionId}`)
       .then((res) => res.json())
       .then((data) => setUrls(data))
       .catch((err) => console.error(err));
