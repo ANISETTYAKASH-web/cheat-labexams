@@ -18,7 +18,7 @@ async function get_url(req, res) {
   //insert files in to db
   const result = dbController.insert_user(sessionId);
   dbController.insert_files(sessionId, fileName);
-  console.log(result);
+
   const params = {
     Bucket: bucket,
     Key: s3key,
@@ -26,10 +26,10 @@ async function get_url(req, res) {
     ACL: "public-read-write",
   };
   const command = new aws.PutObjectCommand(params);
-
+  console.log(command);
   try {
     const url = await getSignedUrl(S3Client, command, { expiresIn: 3600 });
-
+    console.log(url);
     res.status(200).json({ url, s3key });
   } catch (err) {
     console.error(err);
