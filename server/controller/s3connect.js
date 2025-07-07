@@ -10,7 +10,8 @@ const S3Client = new aws.S3Client({
   },
   endpoint: process.env.AWS_ENDPOINT,
 });
-
+console.log(process.env.accessKeyId);
+console.log(process.env.secretAccessKey);
 const bucket = process.env.R2_BUCKET;
 async function get_url(req, res) {
   const { fileName, fileType, sessionId } = req.body;

@@ -83,6 +83,7 @@ export default function FileUpload() {
           },
           body: file,
         });
+        console.log(upload);
         if (!upload.ok) {
           throw new Error(
             `uploading s3 failed: ${upload.statusText},${upload.status} `
